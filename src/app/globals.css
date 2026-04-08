@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0a0a0f;
+  --foreground: #e0e0e0;
+  --neon-blue: #00d4ff;
+  --neon-pink: #ff2d78;
+  --neon-green: #39ff14;
+  --neon-purple: #b84dff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.5);
+}
+
+/* Glassmorphism card */
+@layer components {
+  .glass-card {
+    @apply relative overflow-hidden rounded-2xl border border-card-border;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+
+  .glass-card-hover:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.08);
+    transform: translateY(-4px);
+  }
+
+  /* Neon text glow effects */
+  .neon-text-blue {
+    color: var(--neon-blue);
+    text-shadow: 0 0 7px var(--neon-blue), 0 0 30px rgba(0, 212, 255, 0.3);
+  }
+
+  .neon-text-pink {
+    color: var(--neon-pink);
+    text-shadow: 0 0 7px var(--neon-pink), 0 0 30px rgba(255, 45, 120, 0.3);
+  }
+
+  .neon-text-green {
+    color: var(--neon-green);
+    text-shadow: 0 0 7px var(--neon-green), 0 0 30px rgba(57, 255, 20, 0.3);
+  }
+
+  .neon-text-purple {
+    color: var(--neon-purple);
+    text-shadow: 0 0 7px var(--neon-purple), 0 0 30px rgba(184, 77, 255, 0.3);
+  }
+
+  /* Neon button styles */
+  .neon-btn {
+    @apply relative px-8 py-4 font-heading font-bold text-lg tracking-wider uppercase rounded-xl;
+    @apply border-2 transition-all duration-300 cursor-pointer;
+    @apply hover:scale-105 active:scale-95;
+  }
+
+  .neon-btn-blue {
+    @apply neon-btn border-neon-blue text-neon-blue;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3), inset 0 0 15px rgba(0, 212, 255, 0.05);
+  }
+  .neon-btn-blue:hover {
+    background: rgba(0, 212, 255, 0.15);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5), inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .neon-btn-pink {
+    @apply neon-btn border-neon-pink text-white;
+    background: linear-gradient(135deg, rgba(255, 45, 120, 0.8), rgba(184, 77, 255, 0.8));
+    box-shadow: 0 0 20px rgba(255, 45, 120, 0.4);
+  }
+  .neon-btn-pink:hover {
+    box-shadow: 0 0 40px rgba(255, 45, 120, 0.6), 0 0 80px rgba(255, 45, 120, 0.2);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, var(--neon-blue), var(--neon-pink), var(--neon-purple));
+  }
+
+  /* Marquee */
+  .marquee-container {
+    @apply overflow-hidden whitespace-nowrap;
+  }
+  .marquee-content {
+    @apply inline-block animate-marquee;
+  }
+
+  /* Section spacing */
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20;
+  }
+
+  .section-title {
+    @apply font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-gray-400 text-center text-lg mb-12 max-w-2xl mx-auto;
+  }
+}
+
+/* Animated background orbs */
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* Input styling */
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+select {
+  @apply w-full rounded-xl px-4 py-3 text-white outline-none transition-all duration-300;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+select:focus {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+select option {
+  background: #1a1a2e;
+  color: #e0e0e0;
+}
