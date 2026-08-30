@@ -8,14 +8,19 @@ import { calculatePrice, STATION_CONFIG, StationType, OPENING_HOUR, CLOSING_HOUR
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, phone, station_type, date, start_time, duration, num_persons: rawPersons } = body;
+    const { name, phone, email, station_type, date, start_time, duration, num_persons: rawPersons } = body;
 
     // Validate required fields
-    if (!name || !phone || !station_type || !date || !start_time || !duration) {
+    if (!name || !phone || !email || !station_type || !date || !start_time || !duration) {
       return NextResponse.json(
-        { error: 'Missing required fields: name, phone, station_type, date, start_time, duration' },
+        { error: 'Missing required fields: name, phone, email, station_type, date, start_time, duration' },
         { status: 400 }
       );
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      return NextResponse.json({ error: 'Please provide a valid email address' }, { status: 400 });
     }
 
     const stationType = station_type as StationType;
@@ -83,6 +88,7 @@ export async function POST(request: NextRequest) {
       id: uuidv4(),
       name,
       phone,
+      email,
       station_type: stationType,
       unit_number: unitNumber,
       date,

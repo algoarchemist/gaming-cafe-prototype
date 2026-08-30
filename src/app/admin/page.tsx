@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import AdminDashboard from '@/components/AdminDashboard';
+import { isAdminAuthenticated } from '@/lib/auth';
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard — Gen Z Gaming Cafe',
@@ -7,5 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function AdminPage() {
+  if (!isAdminAuthenticated()) {
+    redirect('/admin/login');
+  }
   return <AdminDashboard />;
 }

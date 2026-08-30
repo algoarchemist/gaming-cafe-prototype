@@ -103,6 +103,7 @@ export default function BookingForm() {
   const [numPersons, setNumPersons] = useState(1);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [availability, setAvailability] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -178,6 +179,11 @@ export default function BookingForm() {
       setError('Please enter a valid phone number');
       return;
     }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email.trim())) {
+      setError('Please enter a valid email address');
+      return;
+    }
     if (availability !== null && availability <= 0) {
       setError('No slots available for this time. Please choose another slot.');
       return;
@@ -191,6 +197,7 @@ export default function BookingForm() {
         body: JSON.stringify({
           name: name.trim(),
           phone: phone.trim(),
+          email: email.trim(),
           station_type: station,
           date,
           start_time: startTime,
@@ -218,6 +225,7 @@ export default function BookingForm() {
     setConfirmedBooking(null);
     setName('');
     setPhone('');
+    setEmail('');
     setNumPersons(1);
     setError('');
     fetchAvailability();
@@ -443,6 +451,21 @@ export default function BookingForm() {
               maxLength={15}
               required
             />
+          </div>
+          <div>
+            <label className="block font-heading text-sm font-semibold text-gray-300 mb-3 tracking-wider uppercase">
+              ✉️ Email Address
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              required
+            />
+            <p className="text-xs text-gray-500 mt-2">
+              We'll email your invoice once the cafe confirms your slot.
+            </p>
           </div>
         </div>
 

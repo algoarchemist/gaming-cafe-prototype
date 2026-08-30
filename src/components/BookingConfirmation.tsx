@@ -7,6 +7,7 @@ interface BookingConfirmationProps {
     id: string;
     name: string;
     phone: string;
+    email?: string;
     station_type: string;
     unit_number: number;
     date: string;
@@ -15,6 +16,7 @@ interface BookingConfirmationProps {
     duration: number;
     num_persons: number;
     total_price: number;
+    status?: string;
   };
   onNewBooking: () => void;
 }
@@ -70,12 +72,15 @@ export default function BookingConfirmation({ booking, onNewBooking }: BookingCo
             transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
             className="text-6xl mb-4"
           >
-            ✅
+            ⏳
           </motion.div>
           <h2 className="font-heading text-2xl font-bold gradient-text mb-2">
-            Booking Confirmed!
+            Request Received!
           </h2>
-          <p className="text-gray-400 text-sm">Your battle station is reserved</p>
+          <p className="text-gray-400 text-sm">
+            Your slot is on hold — the cafe will confirm it shortly and email your invoice to{' '}
+            <span className="text-white">{booking.email}</span>
+          </p>
         </div>
 
         {/* Booking ID */}

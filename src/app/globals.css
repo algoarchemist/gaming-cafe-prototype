@@ -150,6 +150,8 @@ body {
 input[type="text"],
 input[type="tel"],
 input[type="date"],
+input[type="email"],
+input[type="password"],
 select {
   @apply w-full rounded-xl px-4 py-3 text-white outline-none transition-all duration-300;
   background: rgba(255, 255, 255, 0.05);
@@ -159,6 +161,8 @@ select {
 input[type="text"]:focus,
 input[type="tel"]:focus,
 input[type="date"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
 select:focus {
   border-color: var(--neon-blue);
   box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);

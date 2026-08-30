@@ -28,6 +28,11 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# local sqlite database (contains customer PII)
+/data/*.db
+/data/*.db-shm
+/data/*.db-wal
+
 # vercel
 .vercel
 
