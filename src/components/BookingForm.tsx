@@ -107,7 +107,22 @@ export default function BookingForm() {
   const [availability, setAvailability] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
+  interface ConfirmedBooking {
+    id: string;
+    name: string;
+    phone: string;
+    email: string;
+    station_type: string;
+    unit_number: number;
+    date: string;
+    start_time: string;
+    end_time: string;
+    duration: number;
+    num_persons: number;
+    total_price: number;
+    status: string;
+  }
+  const [confirmedBooking, setConfirmedBooking] = useState<ConfirmedBooking | null>(null);
 
   const durationOptions = getDurationOptionsClient(station);
   const timeSlots = getTimeSlotsClient(duration);
@@ -464,7 +479,7 @@ export default function BookingForm() {
               required
             />
             <p className="text-xs text-gray-500 mt-2">
-              We'll email your invoice once the cafe confirms your slot.
+              We&apos;ll email your invoice once the cafe confirms your slot.
             </p>
           </div>
         </div>

@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   description: 'View and manage all bookings at Gen Z Gaming Cafe.',
 };
 
-export default function AdminPage() {
-  if (!isAdminAuthenticated()) {
+export default async function AdminPage() {
+  if (!(await isAdminAuthenticated())) {
     redirect('/admin/login');
   }
   return <AdminDashboard />;

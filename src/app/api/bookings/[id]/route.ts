@@ -5,7 +5,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const booking = getBookingById(params.id);
+  const booking = await getBookingById(params.id);
 
   if (!booking) {
     return NextResponse.json(

@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
     const endTime = minutesToTime(endTotalMins);
 
     // Assign unit
-    const unitNumber = assignUnit(date, stationType, start_time, endTime);
+    const unitNumber = await assignUnit(date, stationType, start_time, endTime);
     if (unitNumber === -1) {
       return NextResponse.json(
         { error: 'No available units for the selected time slot' },
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
     const totalPrice = calculatePrice(stationType, durationMinutes, numPersons);
 
     // Create booking
-    const booking = createBooking({
+    const booking = await createBooking({
       id: uuidv4(),
       name,
       phone,

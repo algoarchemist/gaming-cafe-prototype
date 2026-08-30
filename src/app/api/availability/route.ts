@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const available = getAvailableUnits(date, station, start, durationMinutes);
+  const available = await getAvailableUnits(date, station, start, durationMinutes);
   const total = STATION_CONFIG[station].units;
 
   return NextResponse.json({ available, total });

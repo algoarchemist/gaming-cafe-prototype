@@ -269,11 +269,11 @@ export default function AdminDashboard() {
               <p className="font-heading text-3xl font-bold text-yellow-400">{stats.pendingCount}</p>
             </div>
             <div className="glass-card p-5">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Today's Bookings</p>
+              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Today&apos;s Bookings</p>
               <p className="font-heading text-3xl font-bold neon-text-blue">{stats.todayBookings}</p>
             </div>
             <div className="glass-card p-5">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Today's Revenue</p>
+              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Today&apos;s Revenue</p>
               <p className="font-heading text-3xl font-bold neon-text-green">₹{stats.todayRevenue}</p>
             </div>
             <div className="glass-card p-5">

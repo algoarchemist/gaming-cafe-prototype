@@ -23,14 +23,14 @@ function formatDate(dateStr: string): string {
   return date.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-export default function BillPage({ params }: { params: { id: string } }) {
-  if (!isAdminAuthenticated()) {
+export default async function BillPage({ params }: { params: { id: string } }) {
+  if (!(await isAdminAuthenticated())) {
     redirect('/admin/login');
   }
 
-  const booking = getBookingById(params.id);
+  const booking = await getBookingById(params.id);
   if (!booking) notFound();
-  const bill = getBillByBookingId(booking.id);
+  const bill = await getBillByBookingId(booking.id);
   if (!bill) notFound();
 
   return (

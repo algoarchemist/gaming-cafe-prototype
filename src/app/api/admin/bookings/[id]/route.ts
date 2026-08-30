@@ -5,7 +5,7 @@ import { getBookingById, updateBookingStatus, createBill, getBillByBookingId, ma
 import { sendBookingConfirmationEmail, sendBookingRejectionEmail } from '@/lib/email';
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
-  if (!requireAdmin(request)) {
+  if (!(await requireAdmin(request))) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -14,7 +14,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     return NextResponse.json({ error: 'action must be "accept" or "reject"' }, { status: 400 });
   }
 
-  const booking = getBookingById(params.id);
+  const booking = await getBookingById(params.id);
   if (!booking) {
     return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
   }
@@ -23,7 +23,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 
   if (action === 'reject') {
-    const updated = updateBookingStatus(booking.id, 'rejected');
+    const updated = await updateBookingStatus(booking.id, 'rejected');
     let emailError: string | null = null;
     let previewUrl: string | null = null;
     if (booking.email) {
@@ -40,10 +40,10 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 
   // action === 'accept'
-  const updated = updateBookingStatus(booking.id, 'confirmed')!;
-  let bill = getBillByBookingId(updated.id);
+  const updated = (await updateBookingStatus(booking.id, 'confirmed'))!;
+  let bill = await getBillByBookingId(updated.id);
   if (!bill) {
-    bill = createBill({ id: uuidv4(), bookingId: updated.id, subtotal: updated.total_price, tax: 0 });
+    bill = await createBill({ id: uuidv4(), bookingId: updated.id, subtotal: updated.total_price, tax: 0 });
   }
 
   let emailError: string | null = null;
@@ -52,8 +52,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     try {
       const result = await sendBookingConfirmationEmail(updated, bill);
       previewUrl = result.previewUrl;
-      markBillEmailSent(bill.id);
-      bill = getBillByBookingId(updated.id);
+      await markBillEmailSent(bill.id);
+      bill = await getBillByBookingId(updated.id);
     } catch (err) {
       emailError = err instanceof Error ? err.message : 'Failed to send email';
     }

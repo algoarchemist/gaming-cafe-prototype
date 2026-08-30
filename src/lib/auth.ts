@@ -21,28 +21,28 @@ export function verifyAdminPassword(password: string): boolean {
   return safeEquals(password, expected);
 }
 
-export function createSessionToken(): { token: string; expiresAt: string; maxAge: number } {
+export async function createSessionToken(): Promise<{ token: string; expiresAt: string; maxAge: number }> {
   const token = randomBytes(32).toString('hex');
   const expiresAt = new Date(Date.now() + SESSION_TTL_MS).toISOString();
-  createAdminSession(token, expiresAt);
+  await createAdminSession(token, expiresAt);
   return { token, expiresAt, maxAge: SESSION_TTL_MS / 1000 };
 }
 
-export function destroySessionToken(token: string): void {
-  deleteAdminSession(token);
+export async function destroySessionToken(token: string): Promise<void> {
+  await deleteAdminSession(token);
 }
 
 export const ADMIN_SESSION_COOKIE = SESSION_COOKIE;
 
 /** For use in Server Components / Server Actions (reads cookies() from next/headers). */
-export function isAdminAuthenticated(): boolean {
+export async function isAdminAuthenticated(): Promise<boolean> {
   const token = cookies().get(SESSION_COOKIE)?.value;
   if (!token) return false;
   return isValidAdminSession(token);
 }
 
 /** For use inside API route handlers. */
-export function requireAdmin(request: NextRequest): boolean {
+export async function requireAdmin(request: NextRequest): Promise<boolean> {
   const token = request.cookies.get(SESSION_COOKIE)?.value;
   if (!token) return false;
   return isValidAdminSession(token);

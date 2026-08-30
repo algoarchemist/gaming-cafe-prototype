@@ -37,17 +37,17 @@ function timesOverlap(
 /**
  * Get the number of available units for a given station + date + time window
  */
-export function getAvailableUnits(
+export async function getAvailableUnits(
   date: string,
   stationType: StationType,
   startTime: string,
   durationMinutes: number
-): number {
+): Promise<number> {
   const config = STATION_CONFIG[stationType];
   const endTime = minutesToTime(timeToMinutes(startTime) + durationMinutes);
-  const bookings = getBookingsForDateAndStation(date, stationType);
+  const bookings = await getBookingsForDateAndStation(date, stationType);
 
-  let occupiedUnits = new Set<number>();
+  const occupiedUnits = new Set<number>();
 
   for (const booking of bookings) {
     if (timesOverlap(startTime, endTime, booking.start_time, booking.end_time)) {
@@ -62,14 +62,14 @@ export function getAvailableUnits(
  * Assign the lowest available unit number for a booking
  * Returns -1 if no units are available
  */
-export function assignUnit(
+export async function assignUnit(
   date: string,
   stationType: StationType,
   startTime: string,
   endTime: string
-): number {
+): Promise<number> {
   const config = STATION_CONFIG[stationType];
-  const bookings = getBookingsForDateAndStation(date, stationType);
+  const bookings = await getBookingsForDateAndStation(date, stationType);
 
   for (let unit = 1; unit <= config.units; unit++) {
     const hasConflict = bookings.some(

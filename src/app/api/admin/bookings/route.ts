@@ -3,7 +3,7 @@ import { getAllBookings, getBookingsByDate, getBookingStats } from '@/lib/db';
 import { requireAdmin } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
-  if (!requireAdmin(request)) {
+  if (!(await requireAdmin(request))) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -12,12 +12,12 @@ export async function GET(request: NextRequest) {
   const statsOnly = searchParams.get('stats');
 
   if (statsOnly === 'true') {
-    const stats = getBookingStats();
+    const stats = await getBookingStats();
     return NextResponse.json(stats);
   }
 
-  const bookings = date ? getBookingsByDate(date) : getAllBookings();
-  const stats = getBookingStats();
+  const bookings = date ? await getBookingsByDate(date) : await getAllBookings();
+  const stats = await getBookingStats();
 
   return NextResponse.json({ bookings, stats });
 }

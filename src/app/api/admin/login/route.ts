@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Incorrect password' }, { status: 401 });
     }
 
-    const { token, maxAge } = createSessionToken();
+    const { token, maxAge } = await createSessionToken();
     const res = NextResponse.json({ ok: true });
     res.cookies.set(ADMIN_SESSION_COOKIE, token, {
       httpOnly: true,
